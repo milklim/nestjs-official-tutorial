@@ -1,0 +1,2 @@
+export const COFFEE_BRANDS = 'COFFEE_BRANDS';
+export const COFFEE_BRANDS_LIST = ['MC_COFFEE', 'NESCAFE', 'CHIBO'];

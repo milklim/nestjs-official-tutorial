@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from 'src/events/entities/event.entity';
 import { Connection, Repository } from 'typeorm';
+import { COFFEE_BRANDS } from './coffees.constants';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
@@ -16,7 +17,14 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
-  ) {}
+    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    @Inject('COFFEE_BRANDS_FACTORY') coffeeBrandsFactory: string[],
+    @Inject('COFFEE_BRANDS_FACTORY_ASYNC') coffeeBrandsFactoryAsync: string[],
+  ) {
+    console.log(coffeeBrands);
+    console.log(coffeeBrandsFactory);
+    console.log(coffeeBrandsFactoryAsync);
+  }
 
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
@@ -24,7 +32,7 @@ export class CoffeesService {
       relations: ['flavors'],
       order: { id: 'ASC' },
       skip: offset,
-      take: limit
+      take: limit,
     });
   }
 
@@ -42,14 +50,14 @@ export class CoffeesService {
     let flavors = [];
     if (Array.isArray(createCoffeeDto.flavors)) {
       flavors = await Promise.all(
-        createCoffeeDto.flavors.map(name => this.preloadFlavorByName(name)),
+        createCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
       );
     }
 
     const coffee = this.coffeeRepository.create({
       ...createCoffeeDto,
-    flavors,
-  });
+      flavors,
+    });
     return this.coffeeRepository.save(coffee);
   }
 
