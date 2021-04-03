@@ -10,6 +10,7 @@ export class DatabaseModule {
         {
           provide: 'CONNECTION',
           useValue: createConnection(options),
+          // useFactory: async () => await createConnection(options),
         },
       ],
     }
