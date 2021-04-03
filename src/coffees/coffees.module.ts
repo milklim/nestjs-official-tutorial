@@ -14,7 +14,7 @@ class CoffeeBrandsFactory {
   }
   async createAsync() {
     const brands = await Promise.resolve([...COFFEE_BRANDS_LIST, 'Чорна карта async']);
-    console.log('Async Inject');
+    // console.log('CoffeeBrandsFactory > createAsync');
     return brands;
   }
 }
