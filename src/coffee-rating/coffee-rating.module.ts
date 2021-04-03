@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { CoffeesModule } from 'src/coffees/coffees.module';
 import { DatabaseModule } from 'src/database/database.module';
 import { CoffeeRatingService } from './coffee-rating.service';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     DatabaseModule.register({
       type: 'postgres',
       host: process.env.DB_HOST,

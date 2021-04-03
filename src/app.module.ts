@@ -6,12 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       //   envFilePath: '.environment',
       //   ignoreEnvFile: true,
+      validationSchema: Joi.object({
+        DB_HOST: Joi.required(),
+        DB_PORT: Joi.number().default(7777),
+      }),
     }),
     CoffeesModule,
     TypeOrmModule.forRoot({
