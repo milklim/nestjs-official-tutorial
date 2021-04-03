@@ -1,4 +1,5 @@
 import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from 'src/events/entities/event.entity';
@@ -17,10 +18,15 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
+    private readonly configService: ConfigService,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
     @Inject('COFFEE_BRANDS_FACTORY') coffeeBrandsFactory: string[],
     @Inject('COFFEE_BRANDS_FACTORY_ASYNC') coffeeBrandsFactoryAsync: string[],
   ) {
+    const dbPort: number = Number(
+      this.configService.get<string>('DB_PORT', '5432'),
+    );
+    console.log('DB Port:', dbPort);
     console.log(coffeeBrands);
     console.log(coffeeBrandsFactory);
     console.log(coffeeBrandsFactoryAsync);
