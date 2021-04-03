@@ -13,7 +13,10 @@ class CoffeeBrandsFactory {
     return [...COFFEE_BRANDS_LIST, 'Чорна карта'];
   }
   async createAsync() {
-    const brands = await Promise.resolve([...COFFEE_BRANDS_LIST, 'Чорна карта async']);
+    const brands = await Promise.resolve([
+      ...COFFEE_BRANDS_LIST,
+      'Чорна карта async',
+    ]);
     // console.log('CoffeeBrandsFactory > createAsync');
     return brands;
   }

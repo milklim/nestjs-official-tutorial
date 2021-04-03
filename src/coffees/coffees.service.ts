@@ -21,11 +21,9 @@ export class CoffeesService {
     @Inject('COFFEE_BRANDS_FACTORY') coffeeBrandsFactory: string[],
     @Inject('COFFEE_BRANDS_FACTORY_ASYNC') coffeeBrandsFactoryAsync: string[],
   ) {
-    console.log('CONSTRUCTOR');
-    
-    // console.log(coffeeBrands);
-    // console.log(coffeeBrandsFactory);
-    // console.log(coffeeBrandsFactoryAsync);
+    console.log(coffeeBrands);
+    console.log(coffeeBrandsFactory);
+    console.log(coffeeBrandsFactoryAsync);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
