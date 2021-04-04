@@ -1,10 +1,11 @@
 import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from 'src/events/entities/event.entity';
 import { Connection, Repository } from 'typeorm';
 import { COFFEE_BRANDS } from './coffees.constants';
+import coffeesConfig from './config/coffees.config';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
@@ -22,6 +23,8 @@ export class CoffeesService {
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
     @Inject('COFFEE_BRANDS_FACTORY') coffeeBrandsFactory: string[],
     @Inject('COFFEE_BRANDS_FACTORY_ASYNC') coffeeBrandsFactoryAsync: string[],
+    @Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
     const dbPort: number = Number(
       this.configService.get<string>('DB_PORT', '5432'),
@@ -29,6 +32,9 @@ export class CoffeesService {
     const dbPort_appConfig: number = this.configService.get('database.port', 5432);
     console.log('DB Port (.env):', dbPort);
     console.log('DB Port (app.config):', dbPort_appConfig);
+
+    console.log(coffeesConfiguration.foo);
+
     console.log(coffeeBrands);
     console.log(coffeeBrandsFactory);
     console.log(coffeeBrandsFactoryAsync);
