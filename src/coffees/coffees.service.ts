@@ -26,7 +26,9 @@ export class CoffeesService {
     const dbPort: number = Number(
       this.configService.get<string>('DB_PORT', '5432'),
     );
-    console.log('DB Port:', dbPort);
+    const dbPort_appConfig: number = this.configService.get('database.port', 5432);
+    console.log('DB Port (.env):', dbPort);
+    console.log('DB Port (app.config):', dbPort_appConfig);
     console.log(coffeeBrands);
     console.log(coffeeBrandsFactory);
     console.log(coffeeBrandsFactoryAsync);
