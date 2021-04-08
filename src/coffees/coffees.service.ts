@@ -29,7 +29,10 @@ export class CoffeesService {
     const dbPort: number = Number(
       this.configService.get<string>('DB_PORT', '5432'),
     );
-    const dbPort_appConfig: number = this.configService.get('database.port', 5432);
+    const dbPort_appConfig: number = this.configService.get(
+      'database.port',
+      5432,
+    );
     console.log('DB Port (.env):', dbPort);
     console.log('DB Port (app.config):', dbPort_appConfig);
 
@@ -61,13 +64,7 @@ export class CoffeesService {
   }
 
   async create(createCoffeeDto: CreateCoffeeDto) {
-    let flavors = [];
-    if (Array.isArray(createCoffeeDto.flavors)) {
-      flavors = await Promise.all(
-        createCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
-      );
-    }
-
+    const flavors = await this.preloadFlavors(createCoffeeDto.flavors);
     const coffee = this.coffeeRepository.create({
       ...createCoffeeDto,
       flavors,
@@ -76,10 +73,13 @@ export class CoffeesService {
   }
 
   async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+    const flavors = await this.preloadFlavors(updateCoffeeDto.flavors);
     const coffee = await this.coffeeRepository.preload({
       id: Number(id),
       ...updateCoffeeDto,
+      flavors,
     });
+
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
@@ -120,5 +120,15 @@ export class CoffeesService {
       return existingFlavor;
     }
     return this.flavorRepository.create({ name });
+  }
+
+  private async preloadFlavors(flavorsNames?: string[]): Promise<Flavor[]> {
+    let flavors = [];
+    if (Array.isArray(flavorsNames)) {
+      flavors = await Promise.all(
+        flavorsNames.map((name) => this.preloadFlavorByName(name)),
+      );
+    }
+    return flavors
   }
 }
