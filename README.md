@@ -46,15 +46,20 @@ $ npm run start:prod
 ```
 
 ## Test
+> File naming:
+> 
+>   >*.spec.ts - unit tests
+>
+>   >*.e2e-spec.ts - end-to-end tests
 
 ```bash
-# unit tests
+## unit tests
 $ npm run test
 
-# e2e tests
+## e2e tests
 $ npm run test:e2e
 
-# test coverage
+## test coverage
 $ npm run test:cov
 ```
 
