@@ -1,16 +1,4 @@
-import { ArrayUnique, IsArray, IsOptional, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateCoffeeDto } from './create-coffee.dto';
 
-export class UpdateCoffeeDto {
-  @IsString()
-  @IsOptional()
-  readonly name?: string;
-
-  @IsString()
-  @IsOptional()
-  readonly brand?: string;
-
-  @IsArray()
-  @ArrayUnique()
-  @IsOptional()
-  readonly flavors?: string[];
-}
+export class UpdateCoffeeDto extends PartialType(CreateCoffeeDto) {}
