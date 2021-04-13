@@ -10,6 +10,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiForbiddenResponse } from '@nestjs/swagger';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -22,15 +23,19 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Public()
   @Get()
-  findAll(@Protocol('tcp') protocol: string, @Query() paginationQuery: PaginationQueryDto) {
+  findAll(
+    @Protocol('tcp') protocol: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
     console.log(protocol);
-       
+
     return this.coffeesService.findAll(paginationQuery);
   }
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: string) {   
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.coffeesService.findOne(id);
   }
 
