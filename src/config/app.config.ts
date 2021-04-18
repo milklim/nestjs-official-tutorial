@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('app', () => {
-  const apiKey = process.env.API_KEY || null;
+  const apiKey = process.env.API_KEY || '';
   if (!apiKey) console.warn('!:: specify "API_KEY" in .env');
 
   return {
