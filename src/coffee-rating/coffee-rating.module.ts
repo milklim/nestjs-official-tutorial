@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { CoffeesModule } from 'src/coffees/coffees.module';
-import { DatabaseModule } from 'src/database/database.module';
+import { CoffeesModule } from '../coffees/coffees.module';
+import { DatabaseModule } from '../database/database.module';
 import { CoffeeRatingService } from './coffee-rating.service';
 
 @Module({

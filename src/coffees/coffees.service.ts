@@ -33,14 +33,14 @@ export class CoffeesService {
       'database.port',
       5432,
     );
-    console.log('DB Port (.env):', dbPort);
-    console.log('DB Port (app.config):', dbPort_appConfig);
+    // console.log('DB Port (.env):', dbPort);
+    // console.log('DB Port (app.config):', dbPort_appConfig);
 
-    console.log(coffeesConfiguration.foo);
+    // console.log(coffeesConfiguration.foo);
 
-    console.log(coffeeBrands);
-    console.log(coffeeBrandsFactory);
-    console.log(coffeeBrandsFactoryAsync);
+    // console.log(coffeeBrands);
+    // console.log(coffeeBrandsFactory);
+    // console.log(coffeeBrandsFactoryAsync);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
