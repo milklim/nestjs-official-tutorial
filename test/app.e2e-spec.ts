@@ -15,12 +15,13 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
+  it('/ (GET)', async (done) => {
+    const result = await request(app.getHttpServer())
       .get('/')
-      .set('Authorization', process.env.API_KEY || '')
-      .expect(200)
-      .expect('Hello NEST-JS!!!');
+      .set('Authorization', process.env.API_KEY || '');
+    expect(result.status).toBe(200);
+    expect(result.text).toEqual('Hello NEST-JS!!!')
+    done();
   });
 
   afterAll(async () => {
