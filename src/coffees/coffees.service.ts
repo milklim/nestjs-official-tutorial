@@ -73,9 +73,14 @@ export class CoffeesService {
   }
 
   async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
-    const flavors = await this.preloadFlavors(updateCoffeeDto.flavors);
+    const existingCoffee = await this.findOne(id);
+
+    const flavors = updateCoffeeDto.flavors
+      ? await this.preloadFlavors(updateCoffeeDto.flavors)
+      : existingCoffee.flavors;
+          
     const coffee = await this.coffeeRepository.preload({
-      id: Number(id),
+      ...existingCoffee,
       ...updateCoffeeDto,
       flavors,
     });
